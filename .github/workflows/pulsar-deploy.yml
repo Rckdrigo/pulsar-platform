@@ -1,0 +1,96 @@
+name: Deploy Pulsar to Railway
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'pulsar/**'
+      - '.github/workflows/pulsar-deploy.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'pulsar/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: pulsar/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./pulsar
+        run: npm ci
+
+      - name: Run linting
+        working-directory: ./pulsar
+        run: npm run lint:check
+
+      - name: Run tests
+        working-directory: ./pulsar
+        run: npm run test
+
+      - name: Check test coverage
+        working-directory: ./pulsar
+        run: npm run test:coverage
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: pulsar/package-lock.json
+
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: Deploy to Railway
+        working-directory: ./pulsar
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          railway login --token $RAILWAY_TOKEN
+          railway up --service pulsar-backend
+
+  deploy-staging:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: pulsar/package-lock.json
+
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: Deploy to Railway Staging
+        working-directory: ./pulsar
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN_STAGING }}
+        run: |
+          railway login --token $RAILWAY_TOKEN
+          railway up --service pulsar-staging
