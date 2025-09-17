@@ -1,128 +1,64 @@
-# Project Context - Pulsar Interactive
+# Unified Context - Pulsar Interactive
 
-## Project Overview
+## Executive Summary
 
-Pulsar Interactive is a multi-project repository containing three integrated applications for interactive media and project management, deployed at **pulsarinteractive.xyz**:
+Pulsar Interactive is an integrated multi-project system for interactive media and configuration management, deployed at **pulsarinteractive.xyz**. The system consists of three specialized services working together through centralized APIs and real-time communication.
 
-- **luna/**: Frontend web application (React/Vite/Chakra UI) - Memory bank: `luna/.memory-bank/`
-- **planet/**: Project management service - Memory bank: `planet/.memory-bank/`
-- **pulsar/**: Backend API server (Node.js/Koa) - Memory bank: `pulsar/.memory-bank/`
+**Core Projects:**
+- **pulsar/**: Backend API hub (Node.js/Koa) - Configuration, Auth, Real-time
+- **luna/**: Primary web interface (React/Vite/Chakra UI) - User-facing application
+- **planet/**: Management service (React/Vite) - Project management and admin tools
 
-Each subproject maintains its own specialized memory bank while referencing this root memory bank for shared context.
+## System Architecture
 
-## Domain Configuration
-
-**Primary Domain**: `pulsarinteractive.xyz`
-
-### Subdomain Structure
-- **API Backend**: `api.pulsarinteractive.xyz` (Pulsar)
-- **Main App**: `app.pulsarinteractive.xyz` (Luna)
-- **Management**: `manage.pulsarinteractive.xyz` (Planet)
-- **Root**: `pulsarinteractive.xyz` (Landing/Redirect)
-
-## Architecture
-
-### Integration Points
-- **Configuration System**: Pulsar provides `/api/v1/config` endpoints for centralized configuration
-- **Real-time Communication**: Socket.IO for live updates between services
-- **Authentication**: JWT-based authentication in Pulsar backend
-
-### Project Relationships
-1. **Pulsar** serves as the backend API and configuration hub
-2. **Luna** provides the main user interface consuming Pulsar's APIs
-3. **Planet** handles project management and additional services
-
-## Development Commands
-
-### Pulsar (Backend API)
-```bash
-cd pulsar/
-npm run dev          # Start development server with nodemon
-npm run build        # Build with Babel to dist/
-npm start            # Start production server from dist/
-npm run lint         # Run ESLint with auto-fix
-npm run format       # Format code with Prettier
-npm run test         # Run all tests with Mocha
-npm run test:watch   # Run tests in watch mode
-npm run test:coverage # Run tests with coverage report
+### Service Integration
+```
+┌─────────────┐    API/Socket.IO    ┌─────────────┐
+│    Luna     │◄──────────────────►│   Pulsar    │
+│ (Frontend)  │                    │ (Backend)   │
+└─────────────┘                    └─────────────┘
+       ▲                                  ▲
+       │            Planet                │
+       │         (Management)             │
+       └──────────────┬───────────────────┘
+                      │
+              Shared Configuration
 ```
 
-### Luna (Frontend)
-```bash
-cd luna/
-npm run dev          # Start Vite development server
-npm run build        # Build for production
-npm run preview      # Preview production build
-npm run lint         # Run ESLint with auto-fix
-npm run format       # Format with Prettier
-```
+**Key Integration Points:**
+- **Configuration API**: Centralized YAML-based config with API-first loading
+- **Real-time Updates**: Socket.IO for live synchronization across services
+- **Authentication**: JWT-based auth with secure token management
+- **Deployment**: Subdomain-based service routing on pulsarinteractive.xyz
 
-### Planet (Project Management)
-```bash
-cd planet/
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run lint         # Lint JavaScript files
-npm run format       # Format code
-```
+### Domain Structure
+- `api.pulsarinteractive.xyz` → Pulsar (Backend API)
+- `app.pulsarinteractive.xyz` → Luna (Main Application)
+- `manage.pulsarinteractive.xyz` → Planet (Management Interface)
+- `pulsarinteractive.xyz` → Landing/Router
 
+## Technical Foundation
 
-## Technology Stack
+### Core Patterns
+- **API-First Configuration**: Pulsar `/api/v1/config` endpoints with YAML fallback
+- **Real-time Sync**: Socket.IO events for live updates across all clients
+- **Module Organization**: `@/` aliases, barrel exports, feature-based folders
+- **Security**: Helmet.js, rate limiting, JWT auth, Joi validation
+- **Testing**: Mocha/Chai for backend, comprehensive coverage requirements
 
-### Pulsar (Backend)
-- **Framework**: Koa.js with koa-joi-router
-- **Authentication**: JWT with koa-jwt
-- **Real-time**: Socket.IO
-- **Security**: Helmet, rate limiting
-- **Logging**: Pino structured logging
-- **Testing**: Mocha with Chai, Sinon for mocking
-- **Database**: Configuration in YAML files with API-first loading
+### Development Standards
+- **Code Quality**: ESLint + Prettier across all projects
+- **Pre-commit**: `npm run lint` and `npm run format` required
+- **Testing**: Backend coverage via `npm run test:coverage`
+- **Configuration**: YAML format, API-first with file fallback
 
-### Luna (Frontend)
-- **Framework**: React 18 with Chakra UI
-- **Build Tool**: Vite
-- **Socket Client**: Socket.IO client for real-time updates
-- **Styling**: Chakra UI with Emotion
-- **Config**: YAML parsing with js-yaml
+## Memory Bank Organization
 
+Each service maintains specialized documentation while referencing this unified context:
 
-### Planet (Project Management)
-- **Framework**: Vite-based frontend application
+- **Root** (`.memory-bank/`): Cross-project patterns and integration context
+- **Pulsar** (`pulsar/.memory-bank/`): Backend API, auth, and configuration specifics
+- **Luna** (`luna/.memory-bank/`): Frontend patterns, UI components, and user flows
+- **Planet** (`planet/.memory-bank/`): Management tools and admin interface patterns
 
-## Key Features
-
-### Configuration Management
-- YAML-based configuration with API-first loading
-- Real-time config updates via Socket.IO
-- Centralized configuration through Pulsar API
-- File system fallback for configuration
-
-### Real-time Collaboration
-- Socket.IO for live configuration updates
-- Cross-service event coordination
-
-
-## Development Guidelines
-
-### Code Style
-- ESLint + Prettier configured across all projects
-- Always run `npm run lint` and `npm run format` before commits
-- Module aliases (@/ for src/) used consistently
-
-### Testing
-- Comprehensive test coverage for Pulsar backend
-- Use `npm run test:coverage` to verify coverage
-- Integration tests for API endpoints
-- Unit tests for core business logic
-
-### Security
-- Helmet.js for security headers
-- Rate limiting on API endpoints
-- JWT tokens for authentication
-- Input validation with Joi schemas
-
-### Configuration
-- All configuration changes go through Pulsar API
-- YAML format for human-readable configuration
-- API-first approach with file system fallback
-- Real-time updates to connected clients
+*Refer to CLAUDE.md for complete development commands and project-specific guidance.*

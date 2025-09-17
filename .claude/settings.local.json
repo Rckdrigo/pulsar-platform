@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(mkdir:*)",
-      "Read(//Users/rckdrigo/Projects/**)"
+      "Read(//Users/rckdrigo/Projects/**)",
+      "Bash(docker-compose:*)"
     ],
     "deny": [],
     "ask": []
