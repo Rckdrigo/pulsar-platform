@@ -1,0 +1,50 @@
+# Development overrides for docker-compose
+# This file is automatically loaded by docker-compose for development
+version: '3.8'
+
+services:
+  postgres:
+    environment:
+      - POSTGRES_DB=pulsar_dev
+      - POSTGRES_USER=pulsar_dev_user
+      - POSTGRES_PASSWORD=pulsar_dev_pass
+    ports:
+      - "5433:5432"  # Use different port for development to avoid conflicts
+
+  pulsar-backend:
+    environment:
+      - NODE_ENV=development
+      - DEBUG=*
+      - HAS_DB=true
+      - DATABASE_URL=postgresql://pulsar_dev_user:pulsar_dev_pass@postgres:5432/pulsar_dev
+      - DB_HOST=postgres
+      - DB_NAME=pulsar_dev
+      - DB_USER=pulsar_dev_user
+      - DB_PASS=pulsar_dev_pass
+      - DB_PORT=5432
+    volumes:
+      # Mount source code for development
+      - ./pulsar/src:/app/src:ro
+      - ./pulsar/package.json:/app/package.json:ro
+    command: ["npm", "run", "dev"]
+    ports:
+      - "3000:3000"
+      - "9229:9229"  # Node.js debugger port
+
+  planet-frontend:
+    build:
+      context: ./planet
+      dockerfile: Dockerfile.dev
+    environment:
+      - NODE_ENV=development
+      - VITE_API_BASE_URL=http://localhost:3000
+      - VITE_WEBSOCKET_URL=http://localhost:3000
+    volumes:
+      # Mount source code for development
+      - ./planet/src:/app/src:ro
+      - ./planet/public:/app/public:ro
+      - ./planet/package.json:/app/package.json:ro
+      - ./planet/vite.config.js:/app/vite.config.js:ro
+      - ./planet/index.html:/app/index.html:ro
+    ports:
+      - "5173:5173"

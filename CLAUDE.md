@@ -2,19 +2,34 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Repository Structure
+## Current Working Directory: Planet
 
-This is a multi-project repository for Pulsar Interactive containing three main projects:
+You are currently working in the **Planet** project (`/planet/`), which is the project management and configuration service for Pulsar Interactive. This is part of a larger multi-project repository containing:
 
 - **pulsar/**: Backend API server (Node.js/Koa)
 - **luna/**: Frontend web application (React/Vite)
-- **planet/**: Project management and configuration service
+- **planet/**: Project management and configuration service (current directory)
 
-## Common Development Commands
+## Planet Development Commands
+
+```bash
+npm run dev          # Start development server (port 5173)
+npm run build        # Build for production
+npm run preview      # Preview production build
+npm run lint         # Lint JavaScript files with ESLint
+npm run lint:fix     # Lint with auto-fix
+npm run format       # Format code with Prettier
+npm run format:check # Check code formatting
+npm run security-check # Run security validation script
+npm run audit        # Check for security vulnerabilities
+npm run audit:fix    # Fix security vulnerabilities
+```
+
+## Other Projects in Repository
 
 ### Pulsar (Backend API)
 ```bash
-cd pulsar/
+cd ../pulsar/
 npm run dev          # Start development server with nodemon
 npm run build        # Build with Babel to dist/
 npm start            # Start production server from dist/
@@ -27,27 +42,12 @@ npm run test:coverage # Run tests with coverage report
 
 ### Luna (Frontend)
 ```bash
-cd luna/
+cd ../luna/
 npm run dev          # Start Vite development server
 npm run build        # Build for production
 npm run preview      # Preview production build
 npm run lint         # Run ESLint with auto-fix
 npm run format       # Format with Prettier
-```
-
-### Planet (Project Management)
-```bash
-cd planet/
-npm run dev          # Start development server (port 5173)
-npm run build        # Build for production
-npm run preview      # Preview production build
-npm run lint         # Lint JavaScript files
-npm run lint:fix     # Lint with auto-fix
-npm run format       # Format code with Prettier
-npm run format:check # Check code formatting
-npm run security-check # Run security validation script
-npm run audit        # Check for security vulnerabilities
-npm run audit:fix    # Fix security vulnerabilities
 ```
 
 
@@ -74,17 +74,22 @@ npm run audit:fix    # Fix security vulnerabilities
 - **Styling**: Chakra UI with Emotion
 
 
-### Planet (Project Management)
+### Planet (Current Project)
 - **Framework**: React 18 with Chakra UI and Vite
 - **Purpose**: Configuration management and real-time chat interface
 - **Key Features**:
-  - Real-time chat with WebSocket integration
+  - Real-time chat with WebSocket integration via socket.io-client
   - Configuration management with API-first loading and file fallback
   - Dark/light mode with OS preference detection
   - Authentication system integration
   - Security validation and audit tools
 - **Port**: Development server runs on port 5173
 - **Configuration**: YAML-based config system with template files
+- **Architecture**:
+  - ConfigContext provides centralized configuration state management
+  - Layout-based component structure with resizable sidebars
+  - Custom hooks for authentication, health checks, and WebSocket management
+  - Built-in security validation script
 
 ## Key Integration Points
 
@@ -142,13 +147,29 @@ The projects are designed to work together as a cohesive system:
 
 Future development focuses on tighter integration between services, enhanced real-time collaboration, and comprehensive admin interfaces for configuration management.
 
-## Development Notes
+## Planet-Specific Development Notes
 
-### Planet-Specific Architecture
+### Component Architecture
+- **Layout System**: Hierarchical layout with `Layout.jsx` orchestrating Header, Footer, MainContent, and resizable sidebars
+- **Chat System**: Modular chat components with real-time WebSocket integration
+- **Configuration Management**:
+  - `ConfigContext.jsx` provides centralized state management
+  - `configApi.js` service for API communication
+  - `configLoader.js` utility for YAML configuration loading
+- **Custom Hooks**:
+  - `useAuth.jsx` for authentication
+  - `useHealthCheck` for monitoring system health
+  - WebSocket management hooks for real-time features
 
-- **React Context**: Uses ConfigContext for centralized configuration state management
-- **Custom Hooks**: Includes useAuth, useHealthCheck, useWebSocketChat, useWebSocketManager
-- **Component Structure**: Chat components, layout components, authentication components
-- **WebSocket Integration**: Real-time chat and configuration updates via Socket.IO
-- **Theme Support**: Chakra UI with OS-preference detection for dark/light mode
-- **Security**: Built-in security validation script and configuration validation
+### Security Features
+- **Security Script**: `scripts/security-check.js` validates environment and configuration
+- **Configuration Validation**: Prevents hardcoded secrets in config files
+- **Git Security**: Ensures sensitive files are properly ignored
+- **ESLint Configuration**: Modern flat config with React and security rules
+
+### Development Environment
+- **Vite Configuration**: Custom setup with config directory alias and YAML asset support
+- **Port**: Development server on 5173
+- **File System**: Config directory accessible for imports
+- **Module Resolution**: Path aliases configured for clean imports
+- add this plan to the memory

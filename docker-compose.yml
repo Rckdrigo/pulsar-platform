@@ -1,0 +1,94 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: pulsar-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=${DB_NAME:-pulsar}
+      - POSTGRES_USER=${DB_USER:-pulsar_user}
+      - POSTGRES_PASSWORD=${DB_PASS:-pulsar_pass}
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --lc-collate=C --lc-ctype=C
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    networks:
+      - pulsar-network
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./pulsar/src/models/db/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-pulsar_user} -d ${DB_NAME:-pulsar}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pulsar-backend:
+    build:
+      context: ./pulsar
+      dockerfile: Dockerfile
+    container_name: pulsar-backend
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - PORT=${PULSAR_PORT:-3000}
+      - HAS_DB=${HAS_DB:-true}
+      - DATABASE_URL=postgresql://${DB_USER:-pulsar_user}:${DB_PASS:-pulsar_pass}@postgres:5432/${DB_NAME:-pulsar}
+      - DB_HOST=postgres
+      - DB_NAME=${DB_NAME:-pulsar}
+      - DB_USER=${DB_USER:-pulsar_user}
+      - DB_PASS=${DB_PASS:-pulsar_pass}
+      - DB_PORT=5432
+      # Add other environment variables as needed
+    ports:
+      - "${PULSAR_PORT:-3000}:${PULSAR_PORT:-3000}"
+    networks:
+      - pulsar-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:${PULSAR_PORT:-3000}/api/v1/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    volumes:
+      # Mount logs directory if needed
+      - pulsar-logs:/app/logs
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  planet-frontend:
+    build:
+      context: ./planet
+      dockerfile: Dockerfile
+    container_name: planet-frontend
+    restart: unless-stopped
+    environment:
+      # Environment variables for config.yml generation
+      - VITE_API_BASE_URL=${VITE_API_BASE_URL:-http://localhost:3000}
+      - VITE_WEBSOCKET_URL=${VITE_WEBSOCKET_URL:-http://localhost:3000}
+      - NODE_ENV=${NODE_ENV:-production}
+    ports:
+      - "${PLANET_PORT:-80}:80"
+    networks:
+      - pulsar-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    depends_on:
+      pulsar-backend:
+        condition: service_healthy
+
+networks:
+  pulsar-network:
+    driver: bridge
+    name: pulsar-network
+
+volumes:
+  pulsar-logs:
+    name: pulsar-logs
+  postgres-data:
+    name: pulsar-postgres-data
