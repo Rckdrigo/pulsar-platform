@@ -3,9 +3,27 @@
     "allow": [
       "Bash(mkdir:*)",
       "Read(//Users/rckdrigo/Projects/**)",
-      "Bash(docker-compose:*)"
+      "Bash(docker-compose:*)",
+      "Bash(npm:*)",
+      "Bash(cd:*)",
+      "Bash(lsof:*)",
+      "Bash(curl:*)"
     ],
     "deny": [],
     "ask": []
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "./scripts/dev-server-init.sh --backend",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
   }
 }

@@ -173,3 +173,5 @@ Future development focuses on tighter integration between services, enhanced rea
 - **File System**: Config directory accessible for imports
 - **Module Resolution**: Path aliases configured for clean imports
 - add this plan to the memory
+- memorize all this
+- memoryze all this
