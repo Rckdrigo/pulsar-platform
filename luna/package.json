@@ -1,6 +1,9 @@
 {
   "name": "luna",
   "version": "1.0.0",
+  "description": "Luna - Pulsar Interactive Mobile App - A React Native/Expo mobile application for project management, team collaboration, and real-time communication on iOS and Android platforms.",
+  "author": "Rodrigo Medina <https://rckdrigo.xyz>",
+  "keywords": ["react-native", "expo", "mobile", "ios", "android", "project-management", "collaboration", "real-time"],
   "main": "index.js",
   "scripts": {
     "start": "expo start",

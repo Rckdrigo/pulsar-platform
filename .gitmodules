@@ -1,14 +1,14 @@
 [submodule "pulsar"]
 	path = pulsar
-	url = [pulsar-repository-url]
+	url = git@github.com:Rckdrigo/pulsar.git
 	branch = master
 
 [submodule "planet"]
 	path = planet
-	url = [planet-repository-url]
+	url = git@github.com:Rckdrigo/planet.git
 	branch = master
 
 [submodule "luna"]
 	path = luna
-	url = [luna-repository-url]
+	url = git@github.com:Rckdrigo/luna.git
 	branch = master

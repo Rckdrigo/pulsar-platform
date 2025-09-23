@@ -1,6 +1,25 @@
 version: '3.8'
 
 services:
+  redis:
+    image: redis:7-alpine
+    container_name: pulsar-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-pulsar_redis_pass}
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-pulsar_redis_pass}
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    networks:
+      - pulsar-network
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "--no-auth-warning", "-a", "${REDIS_PASSWORD:-pulsar_redis_pass}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   postgres:
     image: postgres:16-alpine
     container_name: pulsar-postgres
@@ -39,6 +58,10 @@ services:
       - DB_USER=${DB_USER:-pulsar_user}
       - DB_PASS=${DB_PASS:-pulsar_pass}
       - DB_PORT=5432
+      - REDIS_URL=redis://:${REDIS_PASSWORD:-pulsar_redis_pass}@redis:6379
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-pulsar_redis_pass}
       - API_KEY=${API_KEY:-your-api-key-here}
       - JWT_SECRET=${JWT_SECRET:-your-jwt-secret-here}
       - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost}
@@ -58,6 +81,8 @@ services:
       - pulsar-logs:/app/logs
     depends_on:
       postgres:
+        condition: service_healthy
+      redis:
         condition: service_healthy
 
   planet-frontend:
@@ -97,3 +122,5 @@ volumes:
     name: pulsar-logs
   postgres-data:
     name: pulsar-postgres-data
+  redis-data:
+    name: pulsar-redis-data

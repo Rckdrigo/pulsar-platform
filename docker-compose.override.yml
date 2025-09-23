@@ -3,6 +3,13 @@
 version: '3.8'
 
 services:
+  redis:
+    environment:
+      - REDIS_PASSWORD=pulsar_dev_redis_pass
+    ports:
+      - "6380:6379"  # Use different port for development to avoid conflicts
+    command: redis-server --appendonly yes --requirepass pulsar_dev_redis_pass
+
   postgres:
     environment:
       - POSTGRES_DB=pulsar_dev
@@ -22,6 +29,10 @@ services:
       - DB_USER=pulsar_dev_user
       - DB_PASS=pulsar_dev_pass
       - DB_PORT=5432
+      - REDIS_URL=redis://:pulsar_dev_redis_pass@redis:6379
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=pulsar_dev_redis_pass
       - API_KEY=dev-pulsar-interactive-key-2024
       - JWT_SECRET=dev-jwt-secret-change-in-production
       - CORS_ORIGIN=http://localhost:5173

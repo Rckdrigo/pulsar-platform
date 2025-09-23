@@ -179,3 +179,4 @@ Future development focuses on tighter integration between services, enhanced rea
 - memorize the frontend url is pulsarinteractive.xyz production and master , for staging it is staging.pulsarinteractive.xyz.\
 \
 API in prod is api.pulsarinteractive.xyz and staging.api.pulsarinteractive.xyz for staging
+- memorize this
