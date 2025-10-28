@@ -1,6 +1,5 @@
 # Development overrides for docker-compose
 # This file is automatically loaded by docker-compose for development
-version: '3.8'
 
 services:
   redis:
@@ -21,9 +20,8 @@ services:
   pulsar-backend:
     environment:
       - NODE_ENV=development
-      - DEBUG=*
       - HAS_DB=true
-      - DATABASE_URL=postgresql://pulsar_dev_user:pulsar_dev_pass@postgres:5432/pulsar_dev
+      - DATABASE_URL=postgresql://pulsar_dev_user:pulsar_dev_pass@postgres:5432/pulsar_dev?sslmode=disable
       - DB_HOST=postgres
       - DB_NAME=pulsar_dev
       - DB_USER=pulsar_dev_user
@@ -37,6 +35,47 @@ services:
       - JWT_SECRET=dev-jwt-secret-change-in-production
       - CORS_ORIGIN=http://localhost:5173
       - LOG_LEVEL=debug
+
+      # Cache Configuration (Redis)
+      - CACHE_DEFAULT_TTL=3600
+      - CACHE_LLM_TTL=86400
+      - CACHE_CONVERSATION_TTL=7200
+      - CACHE_MESSAGE_DEDUP_TTL=300
+
+      # Socket.IO Configuration
+      - SOCKET_CORS_ORIGIN=http://localhost:5173
+      - SOCKET_CORS_CREDENTIALS=true
+      - ALLOW_ANONYMOUS_CHAT=true
+
+      # Logging Configuration
+      - LOG_REQUESTS=true
+      - LOG_TIMING=true
+      - LOG_WEBSOCKET=true
+      - LOG_DATABASE=true
+      - LOG_AUTH=true
+      - LOG_SYSTEM=true
+      - LOG_AGENTS=true
+      - LOG_TOOLS=true
+      - LOG_VERBOSE=true
+      - LOG_STARTUP=false
+      - LOG_TIMESTAMPS=true
+      - LOG_EMOJIS=true
+      - LOG_STACK_TRACE=true
+
+      # AI Provider Configuration
+      - AI_PROVIDER=flowise
+
+      # Flowise Configuration
+      - FLOWISE_API_URL=${FLOWISE_API_URL:-https://cloud.flowiseai.com}
+      - FLOWISE_API_KEY=${FLOWISE_API_KEY}
+      - FLOWISE_CHATFLOW_ID=${FLOWISE_CHATFLOW_ID}
+      - FLOWISE_TIMEOUT=60000
+      - FLOWISE_ENABLE_STREAMING=true
+
+      # Anthropic/Claude Configuration (fallback)
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - CLAUDE_MODEL=claude-3-5-sonnet-20241022
+      - CLAUDE_MAX_TOKENS=1024
     volumes:
       # Mount source code for development
       - ./pulsar/src:/app/src:ro
@@ -56,7 +95,6 @@ services:
       - VITE_WEBSOCKET_URL=http://localhost:3000
       - VITE_API_KEY=dev-pulsar-interactive-key-2024
       - VITE_ENABLE_CHAT=true
-      - VITE_DEBUG_MODE=true
     volumes:
       # Mount source code for development
       - ./planet/src:/app/src:ro
@@ -66,3 +104,42 @@ services:
       - ./planet/index.html:/app/index.html:ro
     ports:
       - "5173:5173"
+
+  earth-frontend:
+    build:
+      context: ./earth
+      dockerfile: Dockerfile.dev
+    environment:
+      - NODE_ENV=development
+      - VITE_APP_NAME=Comet Portfolio Dev
+    volumes:
+      # Mount source code for development
+      - ./earth/src:/app/src:ro
+      - ./earth/public:/app/public:ro
+      - ./earth/package.json:/app/package.json:ro
+      - ./earth/vite.config.js:/app/vite.config.js:ro
+      - ./earth/index.html:/app/index.html:ro
+      - ./earth/jsconfig.json:/app/jsconfig.json:ro
+    ports:
+      - "8888:8080"
+    command: ["npm", "run", "dev"]
+
+  ninebythesea-frontend:
+    build:
+      context: ./clients/ninebythesea
+      dockerfile: Dockerfile.dev
+    environment:
+      - NODE_ENV=development
+      - VITE_API_BASE_URL=http://localhost:3000
+      - VITE_WEBSOCKET_URL=http://localhost:3000
+      - VITE_API_KEY=dev-pulsar-interactive-key-2024
+      - VITE_APP_NAME=Planet Nine Dev
+    volumes:
+      # Mount source code for development
+      - ./clients/ninebythesea/src:/app/src:ro
+      - ./clients/ninebythesea/package.json:/app/package.json:ro
+      - ./clients/ninebythesea/vite.config.js:/app/vite.config.js:ro
+      - ./clients/ninebythesea/index.html:/app/index.html:ro
+    ports:
+      - "9173:9173"
+    command: ["npm", "run", "dev"]

@@ -1,0 +1,151 @@
+{
+  "name": "Pulsar Interactive - Main Repository",
+  "description": "Central monorepo for Pulsar Interactive ecosystem with backend, frontend, and mobile applications",
+  "lastUpdated": "2025-10-28",
+  "projects": [
+    {
+      "id": "pulsar",
+      "name": "Pulsar Backend",
+      "path": "./pulsar",
+      "description": "Backend API server using Node.js/Koa with REST and Socket.IO",
+      "type": "backend",
+      "framework": "Node.js/Koa",
+      "port": 3000,
+      "mainScripts": ["dev", "build", "test", "lint", "format"],
+      "key_features": [
+        "Configuration management API (/api/v1/config)",
+        "JWT authentication",
+        "Rate limiting and security",
+        "Structured logging with pino"
+      ]
+    },
+    {
+      "id": "planet",
+      "name": "Planet - Configuration Management",
+      "path": "./planet",
+      "description": "Configuration management and real-time chat interface",
+      "type": "frontend",
+      "framework": "React 18 + Chakra UI + Vite",
+      "port": 5173,
+      "mainScripts": ["dev", "build", "preview", "lint", "format", "security-check"],
+      "key_features": [
+        "Real-time chat with WebSocket",
+        "Configuration management",
+        "Dark/light mode",
+        "Authentication integration"
+      ]
+    },
+    {
+      "id": "supernova",
+      "name": "Supernova - Dashboard",
+      "path": "./supernova",
+      "description": "User and admin dashboard with comprehensive API integration",
+      "type": "frontend",
+      "framework": "React 18 + Ant Design + Vite",
+      "port": 6173,
+      "mainScripts": ["dev", "build", "preview", "lint", "format", "test:e2e"],
+      "key_features": [
+        "User dashboard with metrics",
+        "Admin panel with user management",
+        "Real-time updates via Socket.IO",
+        "Role-based access control"
+      ]
+    },
+    {
+      "id": "planet-prime",
+      "name": "Planet-Prime - Frontend Boilerplate",
+      "path": "./planet-prime",
+      "description": "Clean, minimal React/Vite boilerplate template for new frontend applications",
+      "type": "frontend",
+      "framework": "React 18 + Vite",
+      "port": 7173,
+      "mainScripts": ["dev", "build", "preview", "lint", "format", "audit"],
+      "key_features": [
+        "Minimal React setup",
+        "Modern patterns and hooks",
+        "Docker support",
+        "Linting and formatting pre-configured"
+      ]
+    },
+    {
+      "id": "planet-progress-zf",
+      "name": "Planet-Progress-ZF - Progress Tracking",
+      "path": "./planet-progress-zf",
+      "description": "Progress tracking application with real-time chat, health monitoring, and AI integration",
+      "type": "frontend",
+      "framework": "React 18 + Chakra UI + Vite",
+      "port": 8090,
+      "mainScripts": ["dev", "build", "preview", "lint", "format", "test:e2e"],
+      "key_features": [
+        "Real-time chat with Socket.IO",
+        "Enhanced error handling",
+        "Connection status monitoring",
+        "Playwright e2e testing",
+        "Landing page with services"
+      ]
+    },
+    {
+      "id": "earth",
+      "name": "Earth - Portfolio Website",
+      "path": "./earth",
+      "description": "Personal portfolio website for Rodrigo Medina using Vue 3 with creative visual elements",
+      "type": "frontend",
+      "framework": "Vue 3 + Composition API + Vite",
+      "port": 8080,
+      "mainScripts": ["dev", "build", "preview", "lint", "format", "type-check"],
+      "key_features": [
+        "Notebook-style blog experience",
+        "Internationalization (EN/ES)",
+        "Hydra Synth integration",
+        "Glassmorphism effects"
+      ]
+    },
+    {
+      "id": "luna",
+      "name": "Luna - Mobile App",
+      "path": "./luna",
+      "description": "Mobile application using React Native with Expo for iOS and Android",
+      "type": "mobile",
+      "framework": "React Native + Expo",
+      "mainScripts": ["start", "android", "ios", "web"],
+      "key_features": [
+        "Native mobile interface",
+        "Real-time synchronization",
+        "Offline capability",
+        "Push notifications"
+      ]
+    },
+    {
+      "id": "blackhole",
+      "name": "Blackhole - UDP Server",
+      "path": "./blackhole",
+      "description": "UDP server for receiving and processing real-time data streams",
+      "type": "backend",
+      "framework": "Node.js",
+      "port": 8081,
+      "mainScripts": ["start"],
+      "key_features": [
+        "UDP socket server",
+        "High-throughput data ingestion",
+        "Low-latency processing",
+        "Real-time sensor data collection"
+      ]
+    },
+    {
+      "id": "hydra",
+      "name": "Hydra - Web Editor",
+      "path": "./hydra",
+      "description": "Web-based visual synthesis and creative coding editor",
+      "type": "frontend",
+      "framework": "Vite + Hydra Synth",
+      "port": 4173,
+      "mainScripts": ["dev", "build"],
+      "key_features": [
+        "Live coding environment",
+        "Real-time visual feedback with WebGL",
+        "CodeMirror integration",
+        "Socket.IO for collaboration"
+      ]
+    }
+  ]
+}
