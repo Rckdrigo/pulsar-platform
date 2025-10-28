@@ -37,3 +37,7 @@
 [submodule "clients"]
 	path = clients
 	url = git@github.com:Rckdrigo/clients.git
+[submodule "clients/ninebythesea"]
+	path = clients/ninebythesea
+	url = git@github.com:Rckdrigo/planet-nine.git
+	branch = master
