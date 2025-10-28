@@ -31,11 +31,6 @@
 	path = planet-prime
 	url = git@github.com:Rckdrigo/planet-prime.git
 	branch = master
-[submodule "planet-nine"]
-	path = planet-nine
-	url = git@github.com:Rckdrigo/planet-nine.git
-	branch = master
-
 [submodule "Flowise"]
 	path = Flowise
 	url = git@github.com:Rckdrigo/Flowise.git
