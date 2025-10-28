@@ -20,6 +20,21 @@
         "Pulsar Backend (../pulsar - port 3000)"
       ],
       "notes": "Project in early stage development. Configuration and architecture TBD."
+    },
+    {
+      "id": "ninebythesea",
+      "name": "Nine By The Sea",
+      "path": "./ninebythesea",
+      "description": "React/Vite client application for Nine By The Sea project",
+      "type": "client-frontend",
+      "status": "active",
+      "framework": "React 18 + Vite",
+      "port": 9173,
+      "mainScripts": ["dev", "build", "preview", "lint", "format", "audit"],
+      "dependencies": [
+        "Pulsar Backend (../pulsar - port 3000)"
+      ],
+      "notes": "Migrated from planet-nine as nested submodule in clients repository. Maintains original port 9173 for Docker integration."
     }
   ],
   "guidelines": {
