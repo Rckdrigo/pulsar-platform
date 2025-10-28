@@ -1,0 +1,4 @@
+[submodule "ninebythesea"]
+	path = ninebythesea
+	url = git@github.com:Rckdrigo/planet-nine.git
+	branch = master

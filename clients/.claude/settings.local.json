@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Read(//Users/rckdrigo/Projects/pulsar-interactive/**)"
+      "Read(//Users/rckdrigo/Projects/pulsar-interactive/**)",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []
