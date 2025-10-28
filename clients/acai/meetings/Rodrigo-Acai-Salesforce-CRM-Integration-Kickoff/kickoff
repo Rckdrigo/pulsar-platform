@@ -1,0 +1,368 @@
+Sa. Hola. 
+E
+Elena Levi
+06:27
+Hello. 
+P
+Pedro Rodrigo Medina Osorio
+06:28
+Hello. 
+E
+Elena Levi
+06:32
+This meeting is being recorded. We're waiting for Pavel to join. He's going to be in a couple of minutes. 
+P
+Pedro Rodrigo Medina Osorio
+06:41
+Okay. Then opening this like the real time notes also have them. 
+E
+Elena Levi
+08:40
+Hey, Rodrigo, how are you? We'll. We'll switch to English because we have Lena and Sergey in the call. 
+E
+Elena Levi
+08:49
+Okay, well then actually manage. But I. 
+E
+Elena Levi
+08:53
+Not yet, not yet. 
+E
+Elena Levi
+08:57
+Wait, that Thai thingy that you smell right now. 
+P
+Pedro Rodrigo Medina Osorio
+09:01
+Yes. 
+E
+Elena Levi
+09:03
+Nice. 
+E
+Elena Levi
+09:03
+Okay. We're all huge. 
+P
+Pedro Rodrigo Medina Osorio
+09:06
+Yeah, I love it. 
+E
+Elena Levi
+09:10
+The best. 
+P
+Pedro Rodrigo Medina Osorio
+09:12
+Cool. 
+E
+Elena Levi
+09:13
+Oh wow. Camera is frozen. He's not even there. 
+P
+Pedro Rodrigo Medina Osorio
+09:18
+No, I'm just connected. Okay, can you close the door maybe? 
+E
+Elena Levi
+09:21
+Because we don't. Okay, so guys, it'll be super fast. I think maybe Sergey and Lena doesn't need to be there for the whole meeting. So basically I wanted to introduce you to Sergey. I want you to introduce to Rodrigo. Rodrigo to Sergey. 
+P
+Pedro Rodrigo Medina Osorio
+09:41
+There he is. He's listening. So I put. My camera is still frozen there. 
+E
+Elena Levi
+09:46
+No. So Rodrigo is somebody who used to work with Ricky in MXGBT as a. As a project lead, project manager Data. 
+P
+Pedro Rodrigo Medina Osorio
+09:57
+I started as an NLP developer with him, then I moved on to a technical project manager. I was also working with Nat. We worked together like a couple of years. So yeah, that was interesting. 
+E
+Elena Levi
+10:09
+Awesome. So Sergey is a principal engineer. Sergey and I used to work in a different life. And then Sergey and I, we work again together. And Lena is the product manager at the company. And so I just want to basically introduce you, the three of us, like just to do a quick kickoff. So Rodrigo is helping us build essentially two connectors for two new CRMs. Okay. So Rodrigo, I was discussing with Ricky and Ron, I think we should be going with Front first and I'll tell you why. Even though if you don't have experience with Front and you are more experienced with Salesforce, we have multiple clients requesting Front. The Salesforce is principally just one client. Right. 
+E
+Elena Levi
+11:05
+The second thing is we believe that Front's documentation is way more open and there will be less bureaucracy in getting Fronts API access and all of that. 
+P
+Pedro Rodrigo Medina Osorio
+11:17
+Yeah, it's also simpler and probably more modern. 
+E
+Elena Levi
+11:22
+Yeah, it's more simpler and more modern. Right. So I know that was not the plan we discussed last time around, but I hope this makes sense. Right. So there are two aspects of our integration. One is the technical integration and you know, what are the APIs and what are the touch points and this and that. So for that, Sergey, I created Slack Channel with Rodrigo. So I will add you, or I may have already added you. I expect you Guys to find some time, do offline, exchange documentation. You do your things on the capability of our product when it comes to giving a product demo. Right? We can give you a product demo in Zendesk on showing how the currently the. What the product can do and what it cannot do and stuff like that. 
+E
+Elena Levi
+12:15
+And I was hoping you can explain Rodrigo most of the product features and functionality that we have currently. So the idea would be if we had to bring, let's say the travel perk, use case, internal node, click and routing, tagging, annotation, draft, email and stuff like that. If we had to bring that into Front, Rodrigo should know how it works for Zendesk, Rodrigo should know what our products do, and then Rodrigo should know how the Zendesk connector works, what are the APIs and stuff that Sergey can give him. Does that make sense? One second. So, Rodrigo, any questions so far? 
+P
+Pedro Rodrigo Medina Osorio
+13:01
+Not really. I think it's a good idea to understand how the integration is working. There's a concept I was also thinking about something that we brainstormed before in my team, but we never had the chance to do it because a lot of regulations and a lot of permissions to get. But how much of the integration is necessary for your tool? Meaning are you just getting the text and then using, for example Front or. Or send this or whatever APIs to call your own API. So you do it through that, it's just a pass through. Or do you actually use their functions? 
+E
+Elena Levi
+13:44
+No, so basically, and that's more of a. So basically what we do is we do some kind of a case management. So in a very simple sense, let's say Front, there's a new case, right. They will call, they will sync that case with us with asai. So basically send us that, hey, there's a new case ID, then what? As I will use Front's APIs to grab all the information from Front. That could be email body, that could be email subject, that could be customer attributes, some other fields. So for example, in Zendesk you can have custom fields. We grab all of that information. 
+P
+Pedro Rodrigo Medina Osorio
+14:25
+Sorry, Saga, you were something. Technically it's the connector part that does not. 
+E
+Elena Levi
+14:31
+Yeah, so it'll be your code. Basically the connector, the front connector code. So basically what all we expect is our customer who are using front to tell Asai that hey, there is a new case with ID ABC123 then aside goes and grabs all the information needed for ABC123 for the client's usage. Right. And then we'll be doing more API calls for other things as well. 
+P
+Pedro Rodrigo Medina Osorio
+14:53
+Yeah, basically there is absurd flow, which is whenever something happens in front, we need to update our own internal database because that triggers bunch of internal analysis and processes and so on. So the first part is whenever something happens in front, we need to update our own database. And then there are more integration points where Front says it's time for ASAI to try to handle the case. So Front would trigger that. And we will say back, okay, we looked over this case. You need to reply this to a customer or you need to leave this internal node, or you need to leave those annotations. And that's a payload that connector receives and then it needs to execute it. So if it sees that as I want to publish a comment, it needs to make API call to Front to publish a comment. 
+P
+Pedro Rodrigo Medina Osorio
+15:43
+If ASAI wants to annotate the case, set some custom attributes, then Connector will execute a call to set those attributes. So it's kind of like adapter. It is adapter, not kind of. Okay, I get it. Because I was thinking about something that could be more general. Like it can actually work in Salesforce or in. Or in Front or in any other, which we've been experimenting. It's very experimental. So I just leave it there in case you are interested in that. But no, I get it. 
+E
+Elena Levi
+16:16
+Thing is maybe an iframe that can be plugged anywhere and then stuff like that. Right? 
+P
+Pedro Rodrigo Medina Osorio
+16:20
+More. More like a Chrome extension, for example. So the Chrome extension allow you to read a dom, so maybe you can get information from there. Yeah. 
+E
+Elena Levi
+16:32
+The Chrome extension is. We thought about it and one of our clients requested that too sometime back last year. The problem with Chrome extension is Chrome extension do not leave audit trail in the CRM system. 
+P
+Pedro Rodrigo Medina Osorio
+16:49
+Okay, fair enough. One thing. 
+E
+Elena Levi
+16:52
+And when you are working, you want the audit trail to be there when AI was involved. And I'll give you an example. Let's say. Let's say the traveler is sending an email that says, hey, I want to cancel my flight. How much money am I going to get back? And AI recommended that the traveler will get back €120. Now there are two ways the AI can recommend either through a Chrome extension and then based on that Chrome extension response, the agent then sends the email and does all the thing. Or the agent, AI agent can respond that and leave a note within Zendesk, within CRM that says, hey, look, the AI analyzed and this is a recommendation. So that is auditable from a CX perspective. 
+P
+Pedro Rodrigo Medina Osorio
+17:35
+Yeah. Okay. Okay. 
+E
+Elena Levi
+17:38
+Now you can say that if there's a chrome extension. You can take a screenshot on this and that. So, yeah, that's one way of doing it. But for now, what we are actually trying to build is a tighter integration with Front, with Zendesk, with whoever, so that we are actually not just capturing the screen content, but we are actually getting the information that are even metadata that are stored in the customer system. 
+P
+Pedro Rodrigo Medina Osorio
+17:58
+That might not even be visible there. Okay, absolutely. 
+E
+Elena Levi
+18:02
+And maybe the customer would want to hack their own APIs to give us information from other systems as well in the. In the future. 
+P
+Pedro Rodrigo Medina Osorio
+18:09
+Okay. Okay, cool. 
+E
+Elena Levi
+18:13
+So two steps here. One, Lena, if you can spend the rest of the meeting. By the way, we have one more person in the room. There's Camilla. She's. She joined the company today as a GDS expert and we are doing her onboarding. So she's shadowing some of the calls. So maybe, Lena, it's a great idea that you actually give him our Zendesk demo while he is seeing it. Camila can also see and this and that. Right. So you're doing so. So I will let you. So I'll. Rodrigo, I'll let you to you and Lena to go through the product capabilities. She has a lot of documentation as well on, like, what are our different product types, what are those capabilities? You know, she would be your person to give you all the documentation around product features and all that. Right. 
+E
+Elena Levi
+19:04
+You do that conversation today with her. Once that is done, I expect you to take over the conversation with Sergey offline on Slack and then. And take it from there. 
+P
+Pedro Rodrigo Medina Osorio
+19:14
+Okay. 
+E
+Elena Levi
+19:16
+Sergey will be able to give you access to our GitHub, whatever you need, technically speaking. 
+P
+Pedro Rodrigo Medina Osorio
+19:26
+Yep. Okay, that's fine. Then front, then me. Yeah, I'll look into that too. 
+E
+Elena Levi
+19:33
+So, Rodrigo, when you are done with discussing with Lena. Done with discussing. Maybe some other point. Not right now with Sergey. You and I, we still need to have the commercial discussion, but I. I don't think that will be a blocker. So just keep in mind that we'll also have to figure that out. 
+P
+Pedro Rodrigo Medina Osorio
+19:49
+Yeah, sure. Okay. So, yep, let's go ahead with the next step. 
+E
+Elena Levi
+19:54
+Perfect. So, Sergey, I are going to leave the room. I'll let you with Lena and Camilla, who will be explaining you the product, and then we'll take over the ones in Slack. 
+E
+Elena Levi
+20:02
+Cool, Cool. 
+P
+Pedro Rodrigo Medina Osorio
+20:04
+Thank you. Thank you. Pleasure to be here. Okay. Nice to meet you. 
+E
+Elena Levi
+20:10
+Give me one second. I will log into Zendesk. Okay. Second. Okay. I'll just share my screen. Okay. You can see the screen, right? Awesome. So what we do in Zendesk is when the case comes in to our clients, we read the whole case. We read all the data that comes with the case. Some of our clients, they can actually pass the information about what is the PNR number, what is the OID number. We use this when we get this information, we use this in order to go to gds, run all the commands and then fetch information about penalties about the pnr. And then we analyze it and we output the information. So that was the cancellation request from the traveler. So we did all the background work and we output the information for this P and R for this trip. 
+E
+Elena Levi
+22:07
+What would be the cancellation price? What is the refundable amount, what are the keynotes and everything here we also provide the link to Acai app which they can click and go to our platform. And then the moment the agent clicks Ask Acai link we create this. Another internal note that says here is the case discussion in Acai you can see the full conversations here and here. The supervisor or whoever else can see the full conversation. We didn't actually have a conversation so it looks pretty empty. But this is the. The view mode that they can see here. So for each case that we are receiving from our clients, depending on the rules that the client sets, depending on the intent, usually whatever is cancellation or change, it outputs the penalties. 
+E
+Elena Levi
+23:18
+And for that we will need PNR and BCC in order to get to GDS in each. For other types of emails we usually put a summary of the case and also provide the link to Acai platform where agents can chat with our platform and learn information about the other aspects of the like about pnr, about the airline policies and stuff like this. We always the. The format of the node is pretty much the same so it always provides the link to our platform in the end. Right now we have this second node for one client when we provide them the supervisor view for all the conversations inside of our platform. As here in Zendesk we don't have this functionality but for example in Genesis we also are able like their widgets are allowing us we can provide the email draft as well. 
+E
+Elena Levi
+24:34
+So we are outputting a note and the email draft that we suggest for this email inside of the platform as well. 
+P
+Pedro Rodrigo Medina Osorio
+24:46
+Okay, so in case of front is basically well, I guess you already know which is the function that you want to have. Like for example similar to the nodes. 
+E
+Elena Levi
+24:56
+Yeah, hoping to share I think one second. Give me I. 
+P
+Pedro Rodrigo Medina Osorio
+25:34
+It. 
+E
+Elena Levi
+26:04
+I'll share the screen. It's. It's an old. It's an old FIGMA design. I Think we'll need to update it. But that's pretty much what we usually get in our CRMs. Except Zandas does not have email draft. But here. So this is the case summary. This is an internal node that would be visible to the agent and this is the smart response draft which is the email draft. 
+P
+Pedro Rodrigo Medina Osorio
+26:36
+So with the function of inserting in that into front, if they do have that function. Okay, the notes here is one of. 
+E
+Elena Levi
+26:45
+The things that was based on some very high level research that we did like on the sidebar we could output those things. Again, I think this is something that we need to go a bit deeper to understand. Where is exactly the space that we can live. What is the, what is the part that we can output the notes if we can get inside of the conversation like you saw in Zendesk here. So this is the case. This is the internal node inside of the conversation. So here the agent would be replying to the traveler. So this is the way that I think it depends on the functionality of front, depends on what we can do. This is the way that for sure the agent will see it because they have to scroll through it. This is. 
+P
+Pedro Rodrigo Medina Osorio
+27:42
+There'S no way for them to avoid it. Which would be the ideal for you to be within the chat or to be in the side panel. 
+E
+Elena Levi
+27:50
+Zendesk is the preferable way, but again depends on the functionality. I think we'll need to understand it as. As much as we can. If we can put it inside of the case, then we put it. If not, it has to, it will have to live on the side and probably as you can see here, they will have to switch between the tabs and to get to our assistance. That is something we need to understand better because again what I, what we have right now is a very high level view on CRM. That's like research on the CRM that was done by our UX designer. As you understand, that is not really a very deep one because she's not a technical person. So yeah. Another functionality that we also have is deflection. That is pretty much just answering to the traveler. 
+E
+Elena Levi
+28:58
+One second, not sure I have this here. I don't have the ready example for you right now. But the idea is that we answer directly to the traveler. It doesn't appear as an internal note or something on the sidebar, it just goes to the traveler as answer. But it's marked as AI travel agent. 
+P
+Pedro Rodrigo Medina Osorio
+29:35
+So within the chat interface you will reply with your AI like They can interact with your AI with the chat. Okay. Okay. So it would be the notes and the summary once. 
+E
+Elena Levi
+29:52
+One important thing because those are not the chats, those are emails. So whatever functionality we have, it's based on the emails, not the chat with the clients. So the interactive ones that are coming in and out, it's the. Exactly the emails. Email requests from travelers that we are working on right now. So the same thing, the forefront it would be the email. Exactly. Coming in. 
+P
+Pedro Rodrigo Medina Osorio
+30:24
+So the conversation happens with emails. Like I send you an email and then you return me a response automatically. Or. Or can be the agent. Right. Okay. 
+E
+Elena Levi
+30:36
+And then it depends on the. Again it depends on the rules. It depends on the. The phase. So the first phase is going to be just the internal note and email draft. The next one is going to be answering directly to the traveler. 
+P
+Pedro Rodrigo Medina Osorio
+30:54
+So just to understand like what's the scope? Because first I do need to research as Pavel mentioned, I have experience with Salesforce, not with Front. So I need to understand a bit what are the features it has. I will check the API documents also what is necessary also to. To build this. I mean to insert the draft email to. I guess sending email will be just manual. I guess I'm just doing the assumptions also. Right. But I guess the agent needs to read before sending or it's going to be automatic that. I don't know adding the internal nodes or just the side panel in case there's no internal notes. These internal nodes are only visible for agents, not for. 
+E
+Elena Levi
+31:45
+Agent facing always. Well right now these internal nodes it's a help for a trial agent to speed up the process to reduce the workload and everything. So I'm writing down your questions because I will just create a proper document for you to put those things together. What are the priorities right now? Because deflection is a later phase so for sure it's going to be internal. Node question is exactly how. What is the priority for us to place it? So I'll put it, I put it there. 
+P
+Pedro Rodrigo Medina Osorio
+32:25
+Another question, this is more out of my. Of my experience with this kind of tools. Do you need to recognize which agent is dealing with the case and if that's the case Also can many agents deal with the same case? 
+E
+Elena Levi
+32:43
+Usually how we. Yeah, I mean that should be visible in the CRM case. Who's dealing it with it? I mean in case of deflection for later phases it's going to be Acai Travel agent. So it's going to be a create like it's going to be another. Yet another Agent that would be added to their system that would be AI troll agent that would behaving like a regular agent for the internal nodes. It's. I mean right now because it does not behave as a. As a travel agent, it does not interact with the. I think it's also. Sorry, I'm just going in the loops. I think it's also added as a travel agent. It just does not reply to the agents. We will need to for sure know the company will need to know what is the human agent working on the case. 
+E
+Elena Levi
+33:50
+But I don't think for us exactly it matters because for us we just need to read the information. We need to be able to fetch information that we need for summarization or for going to gds. So for us it does not really matter as such who. What kind of human agent works on it. Usually CRM does not work the way that. I mean I think you have more ability other agents. Like if the new. 
+P
+Pedro Rodrigo Medina Osorio
+34:26
+Just like my question goes because of the concept of the draft email, right? Like by itself a draft email is. Is particular for the person that is writing it. Once you send it's public. So platforms until you now because this might be a problem in Salesforce, if this is the case, I cannot share my draft with you. Like if I'm writing an email and then I didn't finish and then you take over the case or I want you to help me with the case, I cannot give you the draft. So you will need to start from scratch. So in this company I was working for, this was a problem. Even though for me the solution was this is more operational. You don't need to fix everything with. With code. Right? Just tell them what to do. 
+P
+Pedro Rodrigo Medina Osorio
+35:18
+But I just also want to understand if. If this is something that's going to happen or just to consider it's probably something small, but it can become a pain. 
+E
+Elena Levi
+35:31
+Okay, once again so I'm just gonna explain you. So the email draft that we're creating, it's like it has all the information that comes from the email or from or and from our analysis of penalties, for example. So in case of cancellation request, for example, so traveler is asking like is this ticket refundable? Can I cancel it? Whatever. So we output the internal note for the travel agent to say okay, this is the non refundable ticket. They will not get anything back. And at the same time we're drafting an email, the drafting animal response with the information that we fetched from the penalties saying hi, like we have information about who is the traveler. So we can use this info. We have information about the trip. So we put already all those things inside of this. It's not just the email template. 
+E
+Elena Levi
+36:32
+It's something that already has put the information that the agent would have to copy paste inside saying that it's not refundable. The PNR number is this. We put all that and then they will just copy this email draft into the window of the response to the traveler. Let me try to actually. 
+P
+Pedro Rodrigo Medina Osorio
+36:59
+Okay. 
+E
+Elena Levi
+37:02
+No, I'm not sure I can at least the idea was that we drafted until the design the signature of the agents so they. We are not actually drafting the whole email. We. We just allow them. We show them the text that they can copy. Like I think in Genesis they can just copy it with one button and it goes to the window of the email response and that's how they modify. That's how they do whatever and then they send it from on their behalf and we. That's really a part of this problem. Okay, who's working? It's just the tags that they are copy pasting with the one simple click into the reply window. 
+P
+Pedro Rodrigo Medina Osorio
+37:57
+So you create the body for them and then you. You copy paste or you send it chat if you want or whatever you do whatever you want to do. You communicate it. Okay, I get it now. Okay. Okay. So it's not really an insert draft API. Just put there the text and make it easy to copy paste. 
+E
+Elena Levi
+38:24
+I will double check because that is something that I would make sure that I will pass this information to you. 
+P
+Pedro Rodrigo Medina Osorio
+38:37
+I know this I think in Salesforce but depends on your scope also. Right. And yeah, I don't think I have any other questions. I do need to make a research on my side. I'll have a look into the documentation up front trying to on the platform. If I can create a like a test account like a sandbox then I'll also start checking it. And I guess you're working with like rest APIs, right? Just post and get and everything. Right. So that should be simple. Simple to integrate and maybe webhook. Right. Because you mentioned also when there's a new case it needs to be called to you. 
+E
+Elena Levi
+39:27
+That's for sure. Oh okay. In this case I will try to put things together that whatever I have whatever questions you had so that you can have a clear vision of what needs to be done. 
+P
+Pedro Rodrigo Medina Osorio
+39:44
+I'll make a research and anyways whatever I'll type it down the slack channel that Pavel added me to as important part of the discovery. Right. Like understanding the platform and if there's any. Anything that it's, like, I can highlight as a possible problem. Hopefully not hopefully, like, but you know. No, it's never. It's never. So. 
+E
+Elena Levi
+40:11
+So it's never. It's. It's never linear, the. The process. So we'll discover something interesting on the way. Awesome. Thank you very much. It was very nice to meet you. I'll send the. Yeah. Later today. I will send the information. So. 
+P
+Pedro Rodrigo Medina Osorio
+40:27
+Okay. Thank you so much, Elena, for your time. I'll put notes here. Yeah. Then I don't know if there's anything else we need to talk about today. 
+E
+Elena Levi
+40:40
+I think for the very first call, I think it's all good. We just need to start rolling and then we'll have a lot of questions or a lot of conversations. If you have any question about how things work or whatever about our platform. 
+P
+Pedro Rodrigo Medina Osorio
+41:02
+One more question. It might be a bit obvious, but it's okay if I assume that this functionality is the same for Front and for Salesforce. So I can already start, like, checking both. Yeah, the same. Okay, perfect. Yep. Then, yeah, no more questions. I think everything is clear. 
+E
+Elena Levi
+41:26
+Thank you. 
+P
+Pedro Rodrigo Medina Osorio
+41:27
+Have a nice day. You too. Bye. Bye. 
+00:0041:33
+1×
+
+
+
+
+

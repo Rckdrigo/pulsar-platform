@@ -12,3 +12,37 @@
 	path = luna
 	url = git@github.com:Rckdrigo/luna.git
 	branch = master
+
+[submodule "earth"]
+	path = earth
+	url = git@github.com:Rckdrigo/earth.git
+	branch = master
+
+[submodule "planet-progress-zf"]
+	path = planet-progress-zf
+	url = git@github.com:Rckdrigo/planet-progress-zf.git
+	branch = master
+[submodule "supernova"]
+	path = supernova
+	url = git@github.com:Rckdrigo/supernova.git
+	branch = master
+
+[submodule "planet-prime"]
+	path = planet-prime
+	url = git@github.com:Rckdrigo/planet-prime.git
+	branch = master
+[submodule "planet-nine"]
+	path = planet-nine
+	url = git@github.com:Rckdrigo/planet-nine.git
+	branch = master
+
+[submodule "hydra"]
+	path = hydra
+	url = git@github.com:Rckdrigo/hydra.git
+	branch = main
+[submodule "Flowise"]
+	path = Flowise
+	url = git@github.com:Rckdrigo/Flowise.git
+[submodule "clients"]
+	path = clients
+	url = git@github.com:Rckdrigo/clients.git
