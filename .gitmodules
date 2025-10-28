@@ -36,10 +36,6 @@
 	url = git@github.com:Rckdrigo/planet-nine.git
 	branch = master
 
-[submodule "hydra"]
-	path = hydra
-	url = git@github.com:Rckdrigo/hydra.git
-	branch = main
 [submodule "Flowise"]
 	path = Flowise
 	url = git@github.com:Rckdrigo/Flowise.git
