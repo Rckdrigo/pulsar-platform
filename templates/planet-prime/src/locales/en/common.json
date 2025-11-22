@@ -1,0 +1,22 @@
+{
+	"app": {
+		"name": "Supernova",
+		"tagline": "Dashboard Application"
+	},
+	"header": {
+		"logo": "Supernova"
+	},
+	"main": {
+		"comingSoon": "Coming Soon",
+		"description": "Supernova Dashboard is currently under development. Check back soon!"
+	},
+	"footer": {
+		"copyright": "© 2025 Pulsar Interactive. All rights reserved.",
+		"poweredBy": "Powered by Pulsar Interactive"
+	},
+	"language": {
+		"select": "Select Language",
+		"en": "English",
+		"es": "Español"
+	}
+}

@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/rckdrigo/Projects/pulsar-interactive/planet-prime/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -42,7 +42,7 @@ services:
 
   pulsar-backend:
     build:
-      context: ./pulsar
+      context: ./services/pulsar
       dockerfile: Dockerfile
     container_name: pulsar-backend
     restart: unless-stopped
@@ -83,130 +83,185 @@ services:
       redis:
         condition: service_healthy
 
-  planet-frontend:
+  # planet-frontend:
+  #   build:
+  #     context: ./platform/planet
+  #     dockerfile: Dockerfile
+  #   container_name: planet-frontend
+  #   restart: unless-stopped
+  #   environment:
+  #     # Environment variables for config.yml generation
+  #     - VITE_API_BASE_URL=${VITE_API_BASE_URL:-http://localhost:3000}
+  #     - VITE_WEBSOCKET_URL=${VITE_WEBSOCKET_URL:-http://localhost:3000}
+  #     - VITE_API_KEY=${VITE_API_KEY:-your-api-key-here}
+  #     - VITE_APP_NAME=${VITE_APP_NAME:-Pulsar Interactive}
+  #     - NODE_ENV=${NODE_ENV:-production}
+  #   ports:
+  #     - "${PLANET_PORT:-80}:80"
+  #   networks:
+  #     - pulsar-network
+  #   healthcheck:
+  #     test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/health"]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 3
+  #     start_period: 40s
+  #   depends_on:
+  #     pulsar-backend:
+  #       condition: service_healthy
+
+  # supernova-frontend:
+  #   build:
+  #     context: ./platform/supernova
+  #     dockerfile: Dockerfile
+  #   container_name: supernova-frontend
+  #   restart: unless-stopped
+  #   environment:
+  #     - NODE_ENV=${NODE_ENV:-production}
+  #     - VITE_API_BASE_URL=${VITE_API_BASE_URL:-http://localhost:3000}
+  #     - VITE_WEBSOCKET_URL=${VITE_WEBSOCKET_URL:-http://localhost:3000}
+  #     - VITE_API_KEY=${VITE_API_KEY:-your-api-key-here}
+  #     - VITE_APP_NAME=${VITE_APP_NAME:-Supernova Dashboard}
+  #   ports:
+  #     - "${SUPERNOVA_PORT:-6173}:80"
+  #   networks:
+  #     - pulsar-network
+  #   healthcheck:
+  #     test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/health"]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 3
+  #     start_period: 40s
+  #   depends_on:
+  #     pulsar-backend:
+  #       condition: service_healthy
+
+  # planet-prime-frontend:
+  #   build:
+  #     context: ./platform/planet-prime
+  #     dockerfile: Dockerfile
+  #   container_name: planet-prime-frontend
+  #   restart: unless-stopped
+  #   environment:
+  #     - NODE_ENV=${NODE_ENV:-production}
+  #     - VITE_API_BASE_URL=${VITE_API_BASE_URL:-http://localhost:3000}
+  #     - VITE_WEBSOCKET_URL=${VITE_WEBSOCKET_URL:-http://localhost:3000}
+  #     - VITE_API_KEY=${VITE_API_KEY:-your-api-key-here}
+  #     - VITE_APP_NAME=${VITE_APP_NAME:-Planet Prime}
+  #   ports:
+  #     - "${PLANET_PRIME_PORT:-7173}:80"
+  #   networks:
+  #     - pulsar-network
+  #   healthcheck:
+  #     test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/"]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 3
+  #     start_period: 40s
+  #   depends_on:
+  #     pulsar-backend:
+  #       condition: service_healthy
+
+  # ninebythesea-frontend:
+  #   build:
+  #     context: ./clients/ninebythesea
+  #     dockerfile: Dockerfile
+  #   container_name: ninebythesea-frontend
+  #   restart: unless-stopped
+  #   environment:
+  #     - NODE_ENV=${NODE_ENV:-production}
+  #     - VITE_API_BASE_URL=${VITE_API_BASE_URL:-http://localhost:3000}
+  #     - VITE_WEBSOCKET_URL=${VITE_WEBSOCKET_URL:-http://localhost:3000}
+  #     - VITE_API_KEY=${VITE_API_KEY:-your-api-key-here}
+  #     - VITE_APP_NAME=${VITE_APP_NAME:-Planet Nine}
+  #   ports:
+  #     - "${PLANET_NINE_PORT:-9173}:80"
+  #   networks:
+  #     - pulsar-network
+  #   healthcheck:
+  #     test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/"]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 3
+  #     start_period: 40s
+  #   depends_on:
+  #     pulsar-backend:
+  #       condition: service_healthy
+
+  # earth-frontend:
+  #   build:
+  #     context: ./earth
+  #     dockerfile: Dockerfile
+  #   container_name: earth-frontend
+  #   restart: unless-stopped
+  #   environment:
+  #     - NODE_ENV=${NODE_ENV:-production}
+  #     - VITE_APP_NAME=${VITE_APP_NAME:-Comet Portfolio}
+  #   ports:
+  #     - "${EARTH_PORT:-8080}:80"
+  #   networks:
+  #     - pulsar-network
+  #   healthcheck:
+  #     test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/"]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 3
+  #     start_period: 40s
+
+  satellite-mcp:
     build:
-      context: ./planet
+      context: ./services/satellite
       dockerfile: Dockerfile
-    container_name: planet-frontend
+    container_name: satellite-mcp
     restart: unless-stopped
     environment:
-      # Environment variables for config.yml generation
-      - VITE_API_BASE_URL=${VITE_API_BASE_URL:-http://localhost:3000}
-      - VITE_WEBSOCKET_URL=${VITE_WEBSOCKET_URL:-http://localhost:3000}
-      - VITE_API_KEY=${VITE_API_KEY:-your-api-key-here}
-      - VITE_APP_NAME=${VITE_APP_NAME:-Pulsar Interactive}
       - NODE_ENV=${NODE_ENV:-production}
+      - TRANSPORT_MODE=http
+      - HTTP_PORT=33000
+      - HTTP_HOST=0.0.0.0
+      - MCP_API_KEY=${SATELLITE_API_KEY:-sk-sat-mcp-2024-secure-development-key}
+      - PULSAR_SOCKET_URL=http://pulsar-backend:3000
+      - PULSAR_API_KEY=${API_KEY:-your-api-key-here}
+      - DEBUG=${DEBUG:-}
     ports:
-      - "${PLANET_PORT:-80}:80"
+      - "${SATELLITE_HTTP_PORT:-33000}:33000"
     networks:
       - pulsar-network
-    healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
     depends_on:
       pulsar-backend:
         condition: service_healthy
-
-  supernova-frontend:
-    build:
-      context: ./supernova
-      dockerfile: Dockerfile
-    container_name: supernova-frontend
-    restart: unless-stopped
-    environment:
-      - NODE_ENV=${NODE_ENV:-production}
-      - VITE_API_BASE_URL=${VITE_API_BASE_URL:-http://localhost:3000}
-      - VITE_WEBSOCKET_URL=${VITE_WEBSOCKET_URL:-http://localhost:3000}
-      - VITE_API_KEY=${VITE_API_KEY:-your-api-key-here}
-      - VITE_APP_NAME=${VITE_APP_NAME:-Supernova Dashboard}
-    ports:
-      - "${SUPERNOVA_PORT:-6173}:80"
-    networks:
-      - pulsar-network
+    stdin_open: true
+    tty: true
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/health"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:33000/health"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 40s
-    depends_on:
-      pulsar-backend:
-        condition: service_healthy
+      start_period: 10s
+    labels:
+      - "com.pulsar.service=satellite-mcp"
+      - "com.pulsar.description=MCP Server for Claude Code integration"
+      - "com.pulsar.http_port=33000"
+      - "com.pulsar.mcp_api_key=${SATELLITE_API_KEY:-sk-sat-mcp-2024-secure-development-key}"
 
-  planet-prime-frontend:
-    build:
-      context: ./planet-prime
-      dockerfile: Dockerfile
-    container_name: planet-prime-frontend
+  flowise:
+    image: flowiseai/flowise:latest
+    container_name: pulsar-flowise
     restart: unless-stopped
     environment:
-      - NODE_ENV=${NODE_ENV:-production}
-      - VITE_API_BASE_URL=${VITE_API_BASE_URL:-http://localhost:3000}
-      - VITE_WEBSOCKET_URL=${VITE_WEBSOCKET_URL:-http://localhost:3000}
-      - VITE_API_KEY=${VITE_API_KEY:-your-api-key-here}
-      - VITE_APP_NAME=${VITE_APP_NAME:-Planet Prime}
+      - DATABASE_PATH=/root/.flowise
+      - APIKEY_PATH=/root/.flowise
+      - SECRETKEY_PATH=/root/.flowise
+      - LOG_LEVEL=debug
+      - DEBUG=true
+      - FLOWISE_USERNAME=${FLOWISE_USERNAME:-admin}
+      - FLOWISE_PASSWORD=${FLOWISE_PASSWORD:-admin123}
     ports:
-      - "${PLANET_PRIME_PORT:-7173}:80"
+      - "3050:3000"
+    volumes:
+      - flowise_data:/root/.flowise
     networks:
       - pulsar-network
-    healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-    depends_on:
-      pulsar-backend:
-        condition: service_healthy
-
-  ninebythesea-frontend:
-    build:
-      context: ./clients/ninebythesea
-      dockerfile: Dockerfile
-    container_name: ninebythesea-frontend
-    restart: unless-stopped
-    environment:
-      - NODE_ENV=${NODE_ENV:-production}
-      - VITE_API_BASE_URL=${VITE_API_BASE_URL:-http://localhost:3000}
-      - VITE_WEBSOCKET_URL=${VITE_WEBSOCKET_URL:-http://localhost:3000}
-      - VITE_API_KEY=${VITE_API_KEY:-your-api-key-here}
-      - VITE_APP_NAME=${VITE_APP_NAME:-Planet Nine}
-    ports:
-      - "${PLANET_NINE_PORT:-9173}:80"
-    networks:
-      - pulsar-network
-    healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-    depends_on:
-      pulsar-backend:
-        condition: service_healthy
-
-  earth-frontend:
-    build:
-      context: ./earth
-      dockerfile: Dockerfile
-    container_name: earth-frontend
-    restart: unless-stopped
-    environment:
-      - NODE_ENV=${NODE_ENV:-production}
-      - VITE_APP_NAME=${VITE_APP_NAME:-Comet Portfolio}
-    ports:
-      - "${EARTH_PORT:-8080}:80"
-    networks:
-      - pulsar-network
-    healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
 
 networks:
   pulsar-network:
@@ -220,3 +275,5 @@ volumes:
     name: pulsar-postgres-data
   redis-data:
     name: pulsar-redis-data
+  flowise_data:
+    name: pulsar-flowise-data

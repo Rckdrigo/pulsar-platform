@@ -1,0 +1,22 @@
+{
+	"app": {
+		"name": "Supernova",
+		"tagline": "Aplicación de Panel de Control"
+	},
+	"header": {
+		"logo": "Supernova"
+	},
+	"main": {
+		"comingSoon": "Próximamente",
+		"description": "El Panel de Control Supernova está actualmente en desarrollo. ¡Vuelve pronto!"
+	},
+	"footer": {
+		"copyright": "© 2025 Pulsar Interactive. Todos los derechos reservados.",
+		"poweredBy": "Desarrollado por Pulsar Interactive"
+	},
+	"language": {
+		"select": "Seleccionar Idioma",
+		"en": "English",
+		"es": "Español"
+	}
+}

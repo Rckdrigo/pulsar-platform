@@ -21,7 +21,7 @@ services:
     environment:
       - NODE_ENV=development
       - HAS_DB=true
-      - DATABASE_URL=postgresql://pulsar_dev_user:pulsar_dev_pass@postgres:5432/pulsar_dev?sslmode=disable
+      - DATABASE_URL=postgresql:./services/pulsar_dev_user:pulsar_dev_pass@postgres:543./services/pulsar_dev?sslmode=disable
       - DB_HOST=postgres
       - DB_NAME=pulsar_dev
       - DB_USER=pulsar_dev_user
@@ -78,68 +78,86 @@ services:
       - CLAUDE_MAX_TOKENS=1024
     volumes:
       # Mount source code for development
-      - ./pulsar/src:/app/src:ro
-      - ./pulsar/package.json:/app/package.json:ro
+      - ./services/pulsar/src:/app/src:ro
+      - ./services/pulsar/package.json:/app/package.json:ro
     command: ["npm", "run", "dev"]
     ports:
       - "3000:3000"
       - "9229:9229"  # Node.js debugger port
 
-  planet-frontend:
-    build:
-      context: ./planet
-      dockerfile: Dockerfile.dev
-    environment:
-      - NODE_ENV=development
-      - VITE_API_BASE_URL=http://localhost:3000
-      - VITE_WEBSOCKET_URL=http://localhost:3000
-      - VITE_API_KEY=dev-pulsar-interactive-key-2024
-      - VITE_ENABLE_CHAT=true
-    volumes:
-      # Mount source code for development
-      - ./planet/src:/app/src:ro
-      - ./planet/public:/app/public:ro
-      - ./planet/package.json:/app/package.json:ro
-      - ./planet/vite.config.js:/app/vite.config.js:ro
-      - ./planet/index.html:/app/index.html:ro
-    ports:
-      - "5173:5173"
+  # planet-frontend:
+  #   build:
+  #     context: ./platform/planet
+  #     dockerfile: Dockerfile.dev
+  #   environment:
+  #     - NODE_ENV=development
+  #     - VITE_API_BASE_URL=http://localhost:3000
+  #     - VITE_WEBSOCKET_URL=http://localhost:3000
+  #     - VITE_API_KEY=dev-pulsar-interactive-key-2024
+  #     - VITE_ENABLE_CHAT=true
+  #   volumes:
+  #     # Mount source code for development
+  #     - ./platform/planet/src:/app/src:ro
+  #     - ./platform/planet/public:/app/public:ro
+  #     - ./platform/planet/package.json:/app/package.json:ro
+  #     - ./platform/planet/vite.config.js:/app/vite.config.js:ro
+  #     - ./platform/planet/index.html:/app/index.html:ro
+  #   ports:
+  #     - "5173:5173"
 
-  earth-frontend:
-    build:
-      context: ./earth
-      dockerfile: Dockerfile.dev
-    environment:
-      - NODE_ENV=development
-      - VITE_APP_NAME=Comet Portfolio Dev
-    volumes:
-      # Mount source code for development
-      - ./earth/src:/app/src:ro
-      - ./earth/public:/app/public:ro
-      - ./earth/package.json:/app/package.json:ro
-      - ./earth/vite.config.js:/app/vite.config.js:ro
-      - ./earth/index.html:/app/index.html:ro
-      - ./earth/jsconfig.json:/app/jsconfig.json:ro
-    ports:
-      - "8888:8080"
-    command: ["npm", "run", "dev"]
+  # earth-frontend:
+  #   build:
+  #     context: ./earth
+  #     dockerfile: Dockerfile.dev
+  #   environment:
+  #     - NODE_ENV=development
+  #     - VITE_APP_NAME=Comet Portfolio Dev
+  #   volumes:
+  #     # Mount source code for development
+  #     - ./earth/src:/app/src:ro
+  #     - ./earth/public:/app/public:ro
+  #     - ./earth/package.json:/app/package.json:ro
+  #     - ./earth/vite.config.js:/app/vite.config.js:ro
+  #     - ./earth/index.html:/app/index.html:ro
+  #     - ./earth/jsconfig.json:/app/jsconfig.json:ro
+  #   ports:
+  #     - "8888:8080"
+  #   command: ["npm", "run", "dev"]
 
-  ninebythesea-frontend:
+  # ninebythesea-frontend:
+  #   build:
+  #     context: ./clients/ninebythesea
+  #     dockerfile: Dockerfile.dev
+  #   environment:
+  #     - NODE_ENV=development
+  #     - VITE_API_BASE_URL=http://localhost:3000
+  #     - VITE_WEBSOCKET_URL=http://localhost:3000
+  #     - VITE_API_KEY=dev-pulsar-interactive-key-2024
+  #     - VITE_APP_NAME=Planet Nine Dev
+  #   volumes:
+  #     # Mount source code for development
+  #     - ./clients/ninebythesea/src:/app/src:ro
+  #     - ./clients/ninebythesea/package.json:/app/package.json:ro
+  #     - ./clients/ninebythesea/vite.config.js:/app/vite.config.js:ro
+  #     - ./clients/ninebythesea/index.html:/app/index.html:ro
+  #   ports:
+  #     - "9173:9173"
+  #   command: ["npm", "run", "dev"]
+
+  satellite-mcp:
     build:
-      context: ./clients/ninebythesea
-      dockerfile: Dockerfile.dev
+      context: ./services/satellite
+      dockerfile: Dockerfile
     environment:
       - NODE_ENV=development
-      - VITE_API_BASE_URL=http://localhost:3000
-      - VITE_WEBSOCKET_URL=http://localhost:3000
-      - VITE_API_KEY=dev-pulsar-interactive-key-2024
-      - VITE_APP_NAME=Planet Nine Dev
-    volumes:
-      # Mount source code for development
-      - ./clients/ninebythesea/src:/app/src:ro
-      - ./clients/ninebythesea/package.json:/app/package.json:ro
-      - ./clients/ninebythesea/vite.config.js:/app/vite.config.js:ro
-      - ./clients/ninebythesea/index.html:/app/index.html:ro
+      - TRANSPORT_MODE=http
+      - HTTP_PORT=33000
+      - HTTP_HOST=0.0.0.0
+      - MCP_API_KEY=${SATELLITE_API_KEY:-sk-sat-mcp-2024-secure-development-key}
+      - PULSAR_SOCKET_URL=http:./services/pulsar-backend:3000
+      - PULSAR_API_KEY=dev-pulsar-interactive-key-2024
+      - DEBUG=mcp:*
     ports:
-      - "9173:9173"
-    command: ["npm", "run", "dev"]
+      - "33000:33000"
+    # Note: Production Dockerfile is used for development too
+    # For source code changes, rebuild the container: docker-compose up --build satellite-mcp

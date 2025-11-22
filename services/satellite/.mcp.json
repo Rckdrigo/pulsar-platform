@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "satellite": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "tsx",
+        "/Users/rckdrigo/Projects/pulsar-interactive/satellite/src/server.ts"
+      ],
+      "env": {
+        "DEBUG": "mcp:*",
+        "TRANSPORT_MODE": "stdio",
+        "PULSAR_SOCKET_URL": "${PULSAR_SOCKET_URL:-http://localhost:3000}",
+        "PULSAR_API_KEY": "${PULSAR_API_KEY:-dev-pulsar-interactive-key-2024}",
+        "FILE_MANAGER_BASE_PATH": "${FILE_MANAGER_BASE_PATH:-/Users/rckdrigo/Projects/pulsar-interactive}"
+      }
+    }
+  }
+}

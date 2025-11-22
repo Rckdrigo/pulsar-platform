@@ -1,0 +1,89 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+
+# Removed source files (documented for reference)
+# src/services/pulsarSocket.js - Removed WebSocket service (was only used by deprecated Pulsar chat tools)
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.development
+.env.staging
+.env.production
+
+# MCP-specific files
+.claude-cookies.json
+.claude-session.json
+claude-cookies.json
+claude-session.json
+
+# Testing
+coverage/
+.nyc_output/
+*.lcov
+
+# IDE and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+.netrc
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Playwright
+.cache/
+test-results/
+blob-report/
+playwright-report/
+
+# OS files
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Node-related
+.npm/
+.eslintcache
+.node_repl_history
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# pnpm
+pnpm-lock.yaml
+
+# Yarn
+yarn.lock
+
+# Jest
+.jest/
