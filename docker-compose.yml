@@ -138,7 +138,7 @@ services:
 
   # planet-prime-frontend:
   #   build:
-  #     context: ./platform/planet-prime
+  #     context: ./templates/planet-prime
   #     dockerfile: Dockerfile
   #   container_name: planet-prime-frontend
   #   restart: unless-stopped
@@ -162,51 +162,22 @@ services:
   #     pulsar-backend:
   #       condition: service_healthy
 
-  # ninebythesea-frontend:
-  #   build:
-  #     context: ./clients/ninebythesea
-  #     dockerfile: Dockerfile
-  #   container_name: ninebythesea-frontend
-  #   restart: unless-stopped
-  #   environment:
-  #     - NODE_ENV=${NODE_ENV:-production}
-  #     - VITE_API_BASE_URL=${VITE_API_BASE_URL:-http://localhost:3000}
-  #     - VITE_WEBSOCKET_URL=${VITE_WEBSOCKET_URL:-http://localhost:3000}
-  #     - VITE_API_KEY=${VITE_API_KEY:-your-api-key-here}
-  #     - VITE_APP_NAME=${VITE_APP_NAME:-Planet Nine}
-  #   ports:
-  #     - "${PLANET_NINE_PORT:-9173}:80"
-  #   networks:
-  #     - pulsar-network
-  #   healthcheck:
-  #     test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/"]
-  #     interval: 30s
-  #     timeout: 10s
-  #     retries: 3
-  #     start_period: 40s
-  #   depends_on:
-  #     pulsar-backend:
-  #       condition: service_healthy
-
-  # earth-frontend:
-  #   build:
-  #     context: ./earth
-  #     dockerfile: Dockerfile
-  #   container_name: earth-frontend
-  #   restart: unless-stopped
-  #   environment:
-  #     - NODE_ENV=${NODE_ENV:-production}
-  #     - VITE_APP_NAME=${VITE_APP_NAME:-Comet Portfolio}
-  #   ports:
-  #     - "${EARTH_PORT:-8080}:80"
-  #   networks:
-  #     - pulsar-network
-  #   healthcheck:
-  #     test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/"]
-  #     interval: 30s
-  #     timeout: 10s
-  #     retries: 3
-  #     start_period: 40s
+  blackhole:
+    build:
+      context: ./services/blackhole
+      dockerfile: Dockerfile
+    container_name: blackhole-udp
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - PORT=${BLACKHOLE_PORT:-8000}
+    ports:
+      - "${BLACKHOLE_PORT:-8000}:8000/udp"
+    networks:
+      - pulsar-network
+    labels:
+      - "com.pulsar.service=blackhole"
+      - "com.pulsar.description=UDP server for real-time data streams"
 
   satellite-mcp:
     build:
