@@ -30,3 +30,7 @@
 [submodule "clients"]
 	path = clients
 	url = git@github.com:Rckdrigo/clients.git
+[submodule "satellite"]
+	path = services/satellite
+	url = git@github.com:Rckdrigo/satellite.git
+	branch = master
