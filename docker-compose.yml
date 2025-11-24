@@ -33,7 +33,7 @@ services:
       - pulsar-network
     volumes:
       - postgres-data:/var/lib/postgresql/data
-      - ./pulsar/src/models/db/init:/docker-entrypoint-initdb.d
+      - ./services/pulsar/src/models/db/init:/docker-entrypoint-initdb.d
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-pulsar_user} -d ${DB_NAME:-pulsar}"]
       interval: 10s
