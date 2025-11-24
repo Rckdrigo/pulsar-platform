@@ -21,7 +21,7 @@ services:
     environment:
       - NODE_ENV=development
       - HAS_DB=true
-      - DATABASE_URL=postgresql:./services/pulsar_dev_user:pulsar_dev_pass@postgres:543./services/pulsar_dev?sslmode=disable
+      - DATABASE_URL=postgresql://pulsar_dev_user:pulsar_dev_pass@postgres:5432/pulsar_dev?sslmode=disable
       - DB_HOST=postgres
       - DB_NAME=pulsar_dev
       - DB_USER=pulsar_dev_user
@@ -154,7 +154,7 @@ services:
       - HTTP_PORT=33000
       - HTTP_HOST=0.0.0.0
       - MCP_API_KEY=${SATELLITE_API_KEY:-sk-sat-mcp-2024-secure-development-key}
-      - PULSAR_SOCKET_URL=http:./services/pulsar-backend:3000
+      - PULSAR_SOCKET_URL=http://pulsar-backend:3000
       - PULSAR_API_KEY=dev-pulsar-interactive-key-2024
       - DEBUG=mcp:*
     ports:
